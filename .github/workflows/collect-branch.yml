@@ -1,4 +1,4 @@
-name: Nexus IB Collector (Branch)
+name: Atlassian Support IB Collector (Branch)
 run-name: ${{ github.actor }} is Collecting 🚀
 on:
   push:
@@ -40,10 +40,10 @@ jobs:
 
       - name: Directory Contents
         run: |
-          echo "Directory Contents"
-          ls -lAhS *
-          echo -e "\nDirectory Size"
-          du -hd1 
+          echo -e "\nDirectory Contents"
+          ls -lAhS . ${{ vars.COLLECTOR }}
+          echo -e "\n\nDirectory Size"
+          du -hd1 ${{ vars.COLLECTOR }}
 
       - name: TARchive Skopeo Output
         run: |

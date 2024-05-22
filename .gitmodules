@@ -1,27 +1,3 @@
-[submodule "jira-ib"]
-	path = jira-ib
-	url = https://repo1.dso.mil/dsop/atlassian/jira-data-center/jira.git
-[submodule "jira-lts-ib"]
-	path = jira-lts-ib
-	url = https://repo1.dso.mil/dsop/atlassian/jira-data-center/jira-lts.git
-[submodule "confluence-ib"]
-	path = confluence-ib
-	url = https://repo1.dso.mil/dsop/atlassian/confluence-data-center/confluence.git
-[submodule "confluence-lts-ib"]
-	path = confluence-lts-ib
-	url = https://repo1.dso.mil/dsop/atlassian/confluence-data-center/confluence-lts.git
-[submodule "bitbucket-ib"]
-	path = bitbucket-ib
-	url = https://repo1.dso.mil/dsop/atlassian/bitbucket-data-center/bitbucket.git
-[submodule "bitbucket-lts-ib"]
-	path = bitbucket-lts-ib
-	url = https://repo1.dso.mil/dsop/atlassian/bitbucket-data-center/bitbucket-lts.git
-[submodule "bamboo-ib"]
-	path = bamboo-ib
-	url = https://repo1.dso.mil/dsop/atlassian/bamboo-data-center/bamboo.git
-[submodule "bamboo-lts-ib"]
-	path = bamboo-lts-ib
-	url = https://repo1.dso.mil/dsop/atlassian/bamboo-data-center/bamboo-lts.git
 [submodule "fisheye-crucible-ib"]
 	path = fisheye-crucible-ib
 	url = https://repo1.dso.mil/dsop/atlassian/fisheye-crucible.git

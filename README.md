@@ -6,4 +6,4 @@ It runs actions on Push or on Mondays at 00:00 and creates a release.
 
 In this case, it collects the source code repositories and the associated container images via skopeo for:
 
-- dso.mil IronBank Sonatype Nexus Hardened container images
+- dso.mil IronBank Atlassian Support (Crowd & Fisheye/Crucible) Hardened container images
