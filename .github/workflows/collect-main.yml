@@ -31,7 +31,7 @@ jobs:
       - name: Install Skopeo
         run: |
           sudo apt-get update -y
-          sudo apt-get install -y skopeo
+          sudo apt-get install -y skopeo pigz
 
       - name: DSO Login
         run: |
@@ -46,12 +46,12 @@ jobs:
         run: |
           echo -e "\nDirectory Contents"
           ls -lAhS . ${{ vars.COLLECTOR }}
-          echo -e "\nDirectory Size"
-          du -hd1 . ${{ vars.COLLECTOR }}
+          echo -e "\n\nDirectory Size"
+          du -hd1 . ${{ vars.COLLECTOR }}/*
 
       - name: TARchive Skopeo Output
         run: |
-          tar -cvz --remove-files \
+          tar -cv -Ipigz --remove-files \
             -f ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.tgz ${{ vars.COLLECTOR }}
           ls -Alh ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.tgz
 
@@ -88,7 +88,7 @@ jobs:
           name: ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.bundle
           path: ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.bundle
 
-  MakeISO:
+  Hash:
     runs-on: ubuntu-latest
     needs: [Date, Code, Skopeo]
     permissions:
@@ -113,9 +113,8 @@ jobs:
 
       - name: Generate Artifact Hash File
         run: |
-          sha256sum -b ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}* >>\
+          sha256sum -b ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}* | tee \
             ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.sha
-          cat ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.sha
 
       - name: Upload Artifact Hash File
         uses: actions/upload-artifact@v4
@@ -123,42 +122,9 @@ jobs:
           name: ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.sha
           path: ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.sha
 
-      - name: Make ISO
-        run: |
-          mkisofs -J -R -v -T -l \
-            -V '${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}' \
-            -A '${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}' \
-            -o ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.iso \
-            ${{ vars.COLLECTOR }}-*.* *.md
-
-      - name: Implant MD5 sum into iso
-        run: implantisomd5 ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.iso
-
-      - name: Generate ISO Hash
-        run: |
-          sha256sum -b ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.iso >>\
-            ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.iso.sha
-          cat ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.iso.sha
-
-      - name: Show ISO & Hash
-        run: ls -Alh *.iso*
-
-      - name: Upload ISO
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.iso
-          path: ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.iso
-          if-no-files-found: error
-
-      - name: Upload ISO Hash
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.iso.sha
-          path: ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.iso.sha
-
   Release:
     runs-on: ubuntu-latest
-    needs: [Date, MakeISO]
+    needs: [Date, Hash]
     permissions:
       contents: write
       pull-requests: read
@@ -200,7 +166,7 @@ jobs:
 
   Sharepoint:
     runs-on: ubuntu-latest
-    needs: [Date, MakeISO]
+    needs: [Date, Hash]
     permissions:
       contents: write
       pull-requests: read
