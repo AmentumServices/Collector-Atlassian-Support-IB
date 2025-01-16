@@ -98,7 +98,7 @@ jobs:
       - name: Bundle Repo1 code base for ${{ vars.COLLECTOR }}
         run: |
           git bundle create --progress ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.bundle --all
-          echo -e "\nDirectory Listing $(ls -Alht *)
+          echo -e "\nDirectory Listing $(ls -Alht *)"
 
       - name: Generate Hash
         run: |
@@ -123,6 +123,8 @@ jobs:
     permissions:
       contents: write
       pull-requests: read
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
