@@ -4,12 +4,6 @@
 [submodule "crowd-ib"]
 	path = crowd-ib
 	url = https://repo1.dso.mil/dsop/atlassian/crowd-data-center.git
-[submodule "opensearch"]
-	path = opensearch
-	url = https://repo1.dso.mil/dsop/afrl-dcgs/stream/opensearch-project/opensearch.git
 [submodule "elasticsearch7"]
 	path = elasticsearch7
 	url = https://repo1.dso.mil/dsop/elastic/elasticsearch/elasticsearch7.git
-[submodule "elasticsearch"]
-	path = elasticsearch
-	url = https://repo1.dso.mil/dsop/elastic/elasticsearch/elasticsearch.git
