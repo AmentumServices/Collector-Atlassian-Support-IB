@@ -1,4 +1,6 @@
 registry1.dso.mil:
     images-by-tag-regex:
+        ironbank/elastic/elasticsearch/elasticsearch: ^7.17.6
+        ironbank/afrl-dcgs/stream/opensearch-project/opensearch: ^2.18.0
         ironbank/atlassian/fisheye-crucible: ^4.8.15$
         ironbank/atlassian/crowd-data-center: ^5.3.1$
